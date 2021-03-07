@@ -1,0 +1,13 @@
+install.packages("PerformanceAnalytics")
+install.packages("lubridate")
+library(PerformanceAnalytics)
+library(xts)
+library(lubridate)
+# load data and create an xts dataset
+fund<-read.csv("contrafund.csv")
+fund$Date<-mdy(fund$Date)
+fund2<-fund[order(fund$Date),]
+#create an xts dataset
+All.dat<-xts(fund2[,-1],order.by=fund2[,1],)
+Return.cumulative(All.dat$ContraRet,geometric = TRUE)
+chart.CumReturns(All.dat$ContraRet,wealth.index = FALSE, geometric = TRUE)
